@@ -4,3 +4,5 @@ Each time you should use:
 git add <filename>
 git commit -m "Comment"
 git push
+
+Commit 3
