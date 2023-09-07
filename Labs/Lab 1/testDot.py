@@ -25,7 +25,7 @@ def driver():
 
 # print the output
      print('the dot product is : ', dp)
-
+     # This is my two matrices
      mat1 = np.array([1,3, 4,2]).reshape(2,2)
      mat2 = np.array([1,2, 2,3]).reshape(2,2)
 
