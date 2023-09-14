@@ -1,12 +1,14 @@
 # import libraries
 import numpy as np
 
+
+
 def driver():
 
 # use routines    
-    f = lambda x: x**3+x-4
-    a = 1
-    b = 4
+    f = lambda x: np.sin(x)
+    a = 0.5
+    b = 3*np.pi / 4
 
 #    f = lambda x: np.sin(x)
 #    a = 0.1
@@ -18,6 +20,16 @@ def driver():
     print('the approximate root is',astar)
     print('the error message reads:',ier)
     print('f(astar) =', f(astar))
+
+    print("Question 1")
+    print("A and C return 1 as the root since 1 is in the interval, but B returns an error since 1 is not in the interval, and so no root can not be found.")
+    print()
+    print("Question 2")
+    print("Part A return 1 which is expected because this is the only zero in the interval given")
+    print("Part B we get an error since both a = 0 and b = 2 have the same sign")
+    print("Part C finds the root and performs well")
+
+
 
 
 
@@ -38,7 +50,7 @@ def bisection(f,a,b,tol):
 #     first verify there is a root we can find in the interval 
 
     fa = f(a)
-    fb = f(b);
+    fb = f(b)
     if (fa*fb>0):
        ier = 1
        astar = a
