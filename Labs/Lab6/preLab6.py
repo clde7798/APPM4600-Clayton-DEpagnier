@@ -8,3 +8,5 @@ f2 = (np.cos(x+h) - np.cos(x-h))/2*h
 
 print(f1[1:9] / f1[0:8])
 print(f2[1:9] / f2[0:8])
+
+ 
