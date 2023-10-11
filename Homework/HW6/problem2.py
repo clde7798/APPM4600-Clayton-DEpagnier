@@ -5,7 +5,7 @@ import math
 import time
 from numpy.linalg import inv 
 from numpy.linalg import norm
-
+    
 
 def driver():
 
