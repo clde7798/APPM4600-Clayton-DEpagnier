@@ -16,10 +16,10 @@ def driver():
     xeval =  np.linspace(a,b,Neval)
     
     ''' number of intervals'''
-    Nint = 5
+    Nint = 10
     '''evaluate the linear spline'''
-    yeval = eval_lin_spline(xeval,Neval,a,b,f,Nint)
-    # yeval = eval_cubic_spline(xeval,Neval,a,b,f,Nint)
+    #yeval = eval_lin_spline(xeval,Neval,a,b,f,Nint)
+    yeval = eval_cubic_spline(xeval,Neval,a,b,f,Nint)
     
     ''' evaluate f at the evaluation points'''
     fex = np.zeros(Neval)
@@ -39,16 +39,17 @@ def driver():
     plt.show() 
 
 def find_m(N, y, x):
-    mat = np.zeros(N,N)
+    N+=1
+    mat = np.zeros((N,N))
     ymat = np.zeros(N)
     for i in range(N):
         for j in range(N):
-            if (j != 0):
-                mat[i][j-1] = 1/12
             if (i == j):
                 mat[i][j] = 1/3
-            if (j != N-1):
-                mat[i][j+1] = 1/12
+                if (j != 0):
+                    mat[i][j-1] = 1/12
+                if (j != N-1):
+                    mat[i][j+1] = 1/12
         if (i > 0 and i < N-1):
             h = x[i] - x[i-1]
             ymat[i] = (y[i+1] - 2*y[i] + y[i-1]) / (2*h**2)
@@ -87,7 +88,6 @@ def  eval_lin_spline(xeval,Neval,a,b,f,Nint):
         fb1 = f(b1)
         
         
-        
         for kk in range(n):
            yeval[ind[0][kk]] = line_eval(a1, fa1, b1, fb1, xeval[ind[0][kk]])
            '''use your line evaluator to evaluate the lines at each of the points 
@@ -103,7 +103,7 @@ def  eval_cubic_spline(xeval,Neval,a,b,f,Nint):
    
     '''create vector to store the evaluation of the linear splines'''
     yeval = np.zeros(Neval) 
-    M = find_m(Neval, f(xeval), xeval)
+    M = find_m(Nint, f(xeval), xeval)
 
     for jint in range(Nint):
         '''find indices of xeval in interval (xint(jint),xint(jint+1))'''
@@ -111,17 +111,19 @@ def  eval_cubic_spline(xeval,Neval,a,b,f,Nint):
         '''let n denote the length of ind'''
         ind = np.where((xeval > xint[jint]) & (xeval < xint[jint+1]))
         n = len(ind[0])
+
         '''temporarily store your info for creating a line in the interval of 
          interest'''
         a1= xint[jint]
         fa1 = f(a1)
         b1 = xint[jint+1]
         fb1 = f(b1)
-        
+        m0 = M[jint]
+        m1 = M[jint+1]
         
         
         for kk in range(n):
-           yeval[ind[0][kk]] = cubic_eval(M[ind[0][kk]], M[ind[0][kk+1]], xeval[ind[0][kk], xeval[ind[0][kk+1]]], f(xeval[ind[0][kk]]), f(xeval[ind[0][kk+1]]), xeval)
+           yeval[ind[0][kk]] = cubic_eval(m0, m1, a1, b1, fa1, fb1, xeval[ind[0][kk]])
            '''use your line evaluator to evaluate the lines at each of the points 
            in the interval'''
            '''yeval(ind(kk)) = call your line evaluator at xeval(ind(kk)) with 
